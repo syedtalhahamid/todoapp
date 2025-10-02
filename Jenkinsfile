@@ -1,11 +1,7 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = "todoapp"
-        CONTAINER_NAME = "todoapp-container"
-    }
-
+   
     stages {
         stage('Checkout') {
             steps {
@@ -17,7 +13,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 bat '''
-                    docker build -t ${IMAGE_NAME}:latest .
+                    docker build -t todoapp:latest .
                 '''
             }
         }
@@ -26,11 +22,11 @@ pipeline {
             steps {
                 bat '''
                     # Stop old container if running
-                    docker stop ${CONTAINER_NAME} || true
-                    docker rm ${CONTAINER_NAME} || true
+                    docker stop todoapp-container || true
+                    docker rm todoapp-container || true
 
                     # Run new container
-                    docker run -d --name ${CONTAINER_NAME} -p 5000:5000 ${IMAGE_NAME}:latest
+                    docker run -d --name todoapp-container -p 5000:5000 todoapp:latest
                 '''
             }
         }
