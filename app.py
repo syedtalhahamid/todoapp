@@ -5,9 +5,9 @@ app = Flask(__name__)
 
 # MySQL RDS configuration
 db = MySQLdb.connect(
-    host="your-rds-endpoint.amazonaws.com",
+    host="terraform-20251002135421645500000001.cq7quaee28jc.us-east-1.rds.amazonaws.com",
     user="admin",
-    passwd="yourpassword",
+    passwd="root",
     db="tododb"
 )
 
