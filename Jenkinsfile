@@ -34,10 +34,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ TodoApp is running at http://localhost:5000"
+            echo " TodoApp is running at http://localhost:5000"
         }
         failure {
-            echo "❌ Build or run failed!"
+            echo " Build or run failed!"
         }
     }
 }
