@@ -2,43 +2,46 @@ pipeline {
     agent any
 
     environment {
-        VENV_DIR = "venv"
+        IMAGE_NAME = "todoapp"
+        CONTAINER_NAME = "todoapp-container"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master',
-                    url: 'https://github.com/syedtalhahamid/todoapp.git'
+                git branch: 'main',
+                    url: 'https://github.com/your-username/todoapp.git'
             }
         }
 
-        stage('Setup Python Environment') {
+        stage('Build Docker Image') {
             steps {
-                bat """
-                    python -m venv %VENV_DIR%
-                    call %VENV_DIR%\\Scripts\\activate
-                    python -m pip install --upgrade pip
-                    pip install -r requirements.txt
-                """
+                sh '''
+                    docker build -t ${IMAGE_NAME}:latest .
+                '''
             }
         }
 
-        stage('Run App') {
+        stage('Run Docker Container') {
             steps {
-                bat """
-                    call %VENV_DIR%\\Scripts\\activate
-                    set FLASK_APP=app.py
-                    set FLASK_ENV=development
-                    start /B flask run --host=0.0.0.0 --port=5000
-                """
+                sh '''
+                    # Stop old container if running
+                    docker stop ${CONTAINER_NAME} || true
+                    docker rm ${CONTAINER_NAME} || true
+
+                    # Run new container
+                    docker run -d --name ${CONTAINER_NAME} -p 5000:5000 ${IMAGE_NAME}:latest
+                '''
             }
         }
     }
 
     post {
-        always {
-            echo 'Pipeline finished.'
+        success {
+            echo "✅ TodoApp is running at http://localhost:5000"
+        }
+        failure {
+            echo "❌ Build or run failed!"
         }
     }
 }
