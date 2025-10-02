@@ -17,5 +17,5 @@ EXPOSE 5000
 
 # Run flask
 ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST= 127.0.0.1
+ENV FLASK_RUN_HOST= 0.0.0.0
 CMD ["flask", "run", "--port=5000"]
