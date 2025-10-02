@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh '''
+                bat '''
                     docker build -t ${IMAGE_NAME}:latest .
                 '''
             }
@@ -24,7 +24,7 @@ pipeline {
 
         stage('Run Docker Container') {
             steps {
-                sh '''
+                bat '''
                     # Stop old container if running
                     docker stop ${CONTAINER_NAME} || true
                     docker rm ${CONTAINER_NAME} || true
