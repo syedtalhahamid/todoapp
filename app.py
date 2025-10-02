@@ -7,7 +7,7 @@ app = Flask(__name__)
 db = MySQLdb.connect(
     host="terraform-20251002135421645500000001.cq7quaee28jc.us-east-1.rds.amazonaws.com",
     user="admin",
-    passwd="root",
+    passwd="Password123!",
     db="tododb"
 )
 
